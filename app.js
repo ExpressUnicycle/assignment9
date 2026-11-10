@@ -71,18 +71,21 @@ document.getElementById("searchWrapper").style.display = "flex";
 document.getElementById("searchWrapper").style.alignItems = "center";
 document.getElementById("search").style.height = "20px";
 
+sortedGlossary = glossary.sort((a, b) => a.term.localeCompare(b.term));
+
+
 function convertString(str) {
   return str.toLowerCase().replaceAll(" ", "");
 }
 
 document.getElementById("search").addEventListener("input", function () {
   const searchValue = convertString(document.getElementById("search").value);
-  let results = glossary.filter((word) => {
+  let results = sortedGlossary.filter((word) => {
     return convertString(word.term).includes(searchValue);
   });
 
   if (results.length === 0) {
-    results = glossary.filter((word) => {
+    results = sortedGlossary.filter((word) => {
       return convertString(word.definition).includes(searchValue);
     });
   }
@@ -96,7 +99,7 @@ function renderGlossary(words) {
   countElement.style.fontWeight = "bold";
   countElement.style.marginBottom = "10px";
   countElement.style.marginTop = "10px";
-  countElement.innerHTML = `Showing ${words.length} of ${glossary.length} terms.`;
+  countElement.innerHTML = `Showing ${words.length} of ${sortedGlossary.length} terms.`;
   document.getElementById("wrapper").appendChild(countElement);
 
   if (words.length === 0) {
@@ -114,4 +117,4 @@ function renderGlossary(words) {
   });
 }
 
-renderGlossary(glossary);
+renderGlossary(sortedGlossary);
